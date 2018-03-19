@@ -1,0 +1,12 @@
+#此文件在application.yml加载前加载，从远程获取配置信息，覆盖application.yml中的配置信息
+#可以通过在远程配置文件中设置spring.cloud.config.allowOverride=true等属性来控制是否允许本地配置覆盖
+spring:
+  application:
+    # 获取配置文件的应用名，远程配置文件的格式为{app name}-{profile}.yml
+    name: application
+  cloud:
+    config:
+      uri: http://localhost:8001
+  profiles:
+    #可以通过启动参数指定:--spring.profiles.active=***
+    active: develop

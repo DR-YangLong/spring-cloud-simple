@@ -1,0 +1,36 @@
+# 启动后访问 127.0.0.1:8001/application-develop.yml查看拉取到的配置
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://git.oschina.net/yanglong.com/spring_cloud_config.git
+          #将 user文件夹下的配置文件纳入管理
+          search-paths: user
+          #password:
+          #username:
+# 将多个同名的config server注册到eureka，配置为config-server服务，达到配置服务高可用
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-first:9001/eureka/,http://eureka-second:9002/eureka/,http://eureka-third:9003/eureka/
+---
+server:
+  #config server端口
+  port: 8001
+spring:
+  profiles: first
+---
+server:
+  #config server端口
+  port: 8002
+spring:
+  profiles: second
+---
+server:
+  #config server端口
+  port: 8003
+spring:
+  profiles: third

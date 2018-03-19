@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: api-service
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-first:9001/eureka/
+---
+server:
+  #config server端口
+  port: 8001
+spring:
+  profiles: first
+---
+server:
+  #config server端口
+  port: 8002
+spring:
+  profiles: second
+---
+server:
+  #config server端口
+  port: 8003
+spring:
+  profiles: third

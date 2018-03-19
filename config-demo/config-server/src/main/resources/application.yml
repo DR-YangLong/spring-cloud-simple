@@ -1,0 +1,14 @@
+# 启动后访问 127.0.0.1:8001/application-develop.yml查看拉取到的配置
+server:
+  #config server端口
+  port: 8001
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://git.oschina.net/yanglong.com/spring_cloud_config.git
+          #将 user文件夹下的配置文件纳入管理
+          search-paths: user
+          #password:
+          #username:

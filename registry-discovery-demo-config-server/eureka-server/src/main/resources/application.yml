@@ -1,0 +1,50 @@
+spring:
+  application:
+    #eureka 服务名
+    name: registry-center
+  profiles:
+    active: first
+eureka:
+  server:
+    #此处关闭自我保护模式,eureka会剔除90秒收不到心跳的注册服务
+    enable-self-preservation: false
+  #集群设置
+  client:
+    #注册为服务
+    register-with-eureka: true
+    #检索服务
+    fetch-registry: true
+    #map键值对，服务注册和发现地址
+---
+spring:
+  profiles: first
+eureka:
+    instance:
+      hostname: eureka-first
+    client:
+      service-url:
+        defaultZone: http://eureka-second:9002/eureka/,http://eureka-third:9003/eureka/
+server:
+  port: ${port:9001}
+---
+spring:
+  profiles: second
+eureka:
+    instance:
+      hostname: eureka-second
+    client:
+      service-url:
+       defaultZone: http://eureka-first:9001/eureka/,http://eureka-third:9003/eureka/
+server:
+  port: ${port:9002}
+---
+spring:
+  profiles: third
+eureka:
+    instance:
+      hostname: eureka-third
+    client:
+      service-url:
+       defaultZone: http://eureka-first:9001/eureka/,http://eureka-second:9002/eureka/
+server:
+  port: ${port:9003}

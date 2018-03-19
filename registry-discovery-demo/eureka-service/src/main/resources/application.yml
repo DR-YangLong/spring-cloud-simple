@@ -1,0 +1,9 @@
+server:
+  port: 8008
+spring:
+  application:
+    name: api-service
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-first:8001/eureka/
