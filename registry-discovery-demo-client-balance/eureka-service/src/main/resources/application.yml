@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: first
   application:
     name: api-service
 eureka:
