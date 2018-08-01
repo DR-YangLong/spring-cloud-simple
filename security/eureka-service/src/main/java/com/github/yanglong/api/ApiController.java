@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * package: com.github.yanglong.api <br/>
- * functional describe:
+ * functional describe: 服务测试接口，返回当前服务名和端口
  *
  * @author DR.YangLong [410357434@163.com]
  * @version 1.0    2017/8/22

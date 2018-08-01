@@ -4,7 +4,6 @@ import com.github.yanglong.filter.AccessFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.client.SpringCloudApplication;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
-import org.springframework.context.annotation.Bean;
 
 /**
  * Hello world!
@@ -16,7 +15,7 @@ public class App {
         SpringApplication.run(App.class, args);
     }
 
-    @Bean
+    //@Bean
     public AccessFilter accessFilter(){
         return new AccessFilter();
     }

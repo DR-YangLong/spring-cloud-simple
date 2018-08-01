@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>POST</title>
+</head>
+<body>
+<form action="http://127.0.0.1:11112/oauth/token" method="post">
+    客户端名称<input name="client_id" type="text" value="android"/>
+    <input name="grant_type" type="hidden" value="authorization_code"/>
+    重定向路径<input name="redirect_uri" type="text" value=""/>
+    授权code<input name="code" type="text" value=""/>
+    <input type="submit" value="提交">
+</form>
+</body>
+</html>

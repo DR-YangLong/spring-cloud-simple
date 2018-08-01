@@ -15,3 +15,17 @@ zuul:
     api-b:
       path: /api-b/**
       serviceId: api-service-b
+  #防止直接使用IP转发时认证信息丢失，配置的头不会被转发，其他的会转发
+  sensitive-headers: Cookie,Set-Cookie
+security:
+  oauth2:
+    client:
+      client-id: gateway
+      client-secret: 123456
+      user-authorization-uri: http://localhost:11112/oauth/authorize
+      access-token-uri: http://localhost:11112/oauth/token
+      scope: all
+    resource:
+      jwt:
+        key-uri: http://localhost:11112/oauth/token_key
+        key-value: simple

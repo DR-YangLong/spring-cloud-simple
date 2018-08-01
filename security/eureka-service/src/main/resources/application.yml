@@ -2,6 +2,16 @@ eureka:
   client:
     service-url:
       defaultZone: http://eureka-first:9001/eureka/
+security:
+  oauth2:
+    client:
+      client-id: webapp
+      client-secret: 123456
+      access-token-uri: http://eureka-first:11112/oauth/token
+      grant-type: implicit,password,client_credentials
+      scope: service
+    resource:
+      user-info-uri: http://eureka-first:11112/user/info
 ---
 server:
   port: 8001
