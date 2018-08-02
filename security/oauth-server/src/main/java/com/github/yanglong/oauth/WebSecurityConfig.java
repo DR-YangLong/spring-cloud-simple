@@ -15,8 +15,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import javax.servlet.http.HttpServletResponse;
-
 /**
  * functional describe:安全验证配置
  *
@@ -40,13 +38,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.formLogin()
-                .and().exceptionHandling().authenticationEntryPoint((request,response,authException)->response.sendError(HttpServletResponse.SC_UNAUTHORIZED))
+        //.exceptionHandling().authenticationEntryPoint((request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED))
+        http.httpBasic()
+                .and()
+                .formLogin()
                 .and()
                 .authorizeRequests().anyRequest().authenticated()
                 .and()
-                .csrf().disable()
-                .httpBasic();
+                .csrf().disable();
     }
 
     @Override

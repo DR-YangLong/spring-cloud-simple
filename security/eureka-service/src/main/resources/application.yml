@@ -16,7 +16,7 @@ security:
 server:
   port: 8001
 spring:
-  profiles: first
+  profiles: first-a
   application:
     name: api-service-a
 ---
@@ -27,3 +27,16 @@ spring:
   application:
       name: api-service-b
 ---
+server:
+  port: 8003
+spring:
+  profiles: first-b
+  application:
+    name: api-service-a
+---
+server:
+  port: 8004
+spring:
+  profiles: first-c
+  application:
+    name: api-service-a

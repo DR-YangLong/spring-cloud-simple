@@ -26,6 +26,13 @@ public class CustomJwtAccessTokenConverter extends JwtAccessTokenConverter {
         return super.extractAccessToken(value, map);
     }
 
+    @Override
+    public OAuth2Authentication extractAuthentication(Map<String, ?> map) {
+        OAuth2Authentication authentication = super.extractAuthentication(map);
+        authentication.setDetails(map);
+        return authentication;
+    }
+
     /**
      * 生成token，可在此处放入自定义信息
      *

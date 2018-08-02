@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,12 +14,14 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
 import java.security.KeyPair;
+import java.util.Base64;
 
 /**
  * functional describe:认证服务配置
@@ -51,19 +54,23 @@ public class OAuthServerConfig extends AuthorizationServerConfigurerAdapter {
                 .withClient("android")//简化模式下client_id
                 .secret("{noop}android")//密码，android
                 .scopes("service")//权限范围
-                .authorizedGrantTypes("password", "authorization_code", "refresh_token","client_credentials")
+                .autoApprove(true)
+                .autoApprove("service")
+                .authorizedGrantTypes("password", "authorization_code", "refresh_token", "client_credentials")
+                .redirectUris("http://127.0.0.1:8001/","http://127.0.0.1:8003/","http://127.0.0.1:8004/")
                 .accessTokenValiditySeconds(3600)
                 .and()
                 .withClient("webapp")
                 .secret("{noop}123456")//123456
                 .scopes("service")
-                .authorizedGrantTypes("implicit", "password","client_credentials")
+                .authorizedGrantTypes("implicit", "password", "client_credentials")
+                .redirectUris("http://127.0.0.1:8002/")
                 .accessTokenValiditySeconds(3600)
                 .and()
                 .withClient("gateway")//简化模式下client_id
                 .secret("{bcrypt}123456")//123456
                 .scopes("all")//权限范围
-                .authorizedGrantTypes("password", "authorization_code", "refresh_token","client_credentials")
+                .authorizedGrantTypes("password", "authorization_code", "refresh_token", "client_credentials")
                 .accessTokenValiditySeconds(3600);
     }
 
@@ -83,7 +90,17 @@ public class OAuthServerConfig extends AuthorizationServerConfigurerAdapter {
      */
     @Bean
     public TokenStore tokenStore() {
-        return new InMemoryTokenStore();
+        return new JwtTokenStore(jwtAccessTokenConverter());
+    }
+
+
+    @Bean
+    @Primary
+    public DefaultTokenServices tokenServices() {
+        final DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
+        defaultTokenServices.setTokenStore(tokenStore());
+        defaultTokenServices.setSupportRefreshToken(true);
+        return defaultTokenServices;
     }
 
     /**
@@ -94,10 +111,11 @@ public class OAuthServerConfig extends AuthorizationServerConfigurerAdapter {
     @Bean
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
         JwtAccessTokenConverter converter = new CustomJwtAccessTokenConverter();
-        KeyStoreKeyFactory storeKeyFactory=new KeyStoreKeyFactory(new ClassPathResource("jwt_key.keystore"),"123456".toCharArray());
-        KeyPair keyPair=storeKeyFactory.getKeyPair("jwt_key");
-        System.out.println("private key:"+keyPair.getPrivate().toString());
-        System.out.println("public key:"+keyPair.getPublic().toString());
+        KeyStoreKeyFactory storeKeyFactory = new KeyStoreKeyFactory(new ClassPathResource("jwt_key.keystore"), "123456".toCharArray());
+        KeyPair keyPair = storeKeyFactory.getKeyPair("jwt_key");
+        System.out.println("public key:\n-----BEGIN PUBLIC KEY-----\n"
+                + new String(Base64.getEncoder().encode(keyPair.getPublic().getEncoded())) +
+                "\n-----END PUBLIC KEY-----");
         converter.setKeyPair(keyPair);
         return converter;
     }

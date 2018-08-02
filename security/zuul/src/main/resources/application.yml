@@ -28,4 +28,10 @@ security:
     resource:
       jwt:
         key-uri: http://localhost:11112/oauth/token_key
-        key-value: simple
+        key-value: "-----BEGIN PUBLIC KEY-----
+                    MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCxhSSHOicbcI44fDkg1iYxtnLm
+                    9+X8fkHO9tTPecZfU3rsx3OYEqWu2zPQCKtNvS8fgvsuhXZbqAM7L5MRCT+e8mXC
+                    LmEITayOIWEyKtc0TQqLju5otVAqr3SF+CZ0u0NC0wWwTAFH2cFTs+e6YZCcmpb4
+                    54EPc8+FTRhgLVv54QIDAQAB
+                    -----END PUBLIC KEY-----"
+      user-info-uri: http://eureka-first:11112/user/info
