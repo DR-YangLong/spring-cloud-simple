@@ -56,22 +56,27 @@ public class OAuthServerConfig extends AuthorizationServerConfigurerAdapter {
                 .scopes("service")//权限范围
                 .autoApprove(true)
                 .autoApprove("service")
+                //参数中的client，secret对上，且redirectUri能匹配才会跳转
                 .authorizedGrantTypes("password", "authorization_code", "refresh_token", "client_credentials")
-                .redirectUris("http://127.0.0.1:8001/","http://127.0.0.1:8003/","http://127.0.0.1:8004/")
-                .accessTokenValiditySeconds(3600)
+                .redirectUris("http://127.0.0.1:8001", "http://127.0.0.1:8003", "http://127.0.0.1:8004")//携带code跳转链接
+                .accessTokenValiditySeconds(86400)
+                .refreshTokenValiditySeconds(86400*2)
                 .and()
                 .withClient("webapp")
                 .secret("{noop}123456")//123456
                 .scopes("service")
                 .authorizedGrantTypes("implicit", "password", "client_credentials")
-                .redirectUris("http://127.0.0.1:8002/")
+                .redirectUris("http://127.0.0.1:8002")
                 .accessTokenValiditySeconds(3600)
+                .refreshTokenValiditySeconds(3600)
                 .and()
                 .withClient("gateway")//简化模式下client_id
                 .secret("{bcrypt}123456")//123456
                 .scopes("all")//权限范围
                 .authorizedGrantTypes("password", "authorization_code", "refresh_token", "client_credentials")
-                .accessTokenValiditySeconds(3600);
+                .accessTokenValiditySeconds(3600)
+                .refreshTokenValiditySeconds(3600)
+                .redirectUris("http://127.0.0.1:11111");
     }
 
     @Override

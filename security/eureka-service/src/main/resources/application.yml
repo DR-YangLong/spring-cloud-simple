@@ -1,3 +1,8 @@
+feign:
+  hystrix:
+    enabled: true
+hystrix:
+  shareSecurityContext: true
 eureka:
   client:
     service-url:
@@ -23,20 +28,20 @@ spring:
 server:
   port: 8002
 spring:
-  profiles: second
+  profiles: first-b
   application:
-      name: api-service-b
+      name: api-service-a
 ---
 server:
   port: 8003
 spring:
-  profiles: first-b
+  profiles: second-a
   application:
-    name: api-service-a
+    name: api-service-b
 ---
 server:
   port: 8004
 spring:
-  profiles: first-c
+  profiles: second-b
   application:
-    name: api-service-a
+    name: api-service-b
