@@ -39,6 +39,18 @@ public class ApiController {
     }
 
 
+    @GetMapping("/api/hello")
+    public String hello() {
+        String status;
+        if(!"api-service-b".equals(name)) {
+            status = serviceStatus.hello();
+            System.out.println("从api-service-b返回："+status);
+        }else{
+            status="api-service-b不进行调用";
+        }
+        return name + ":" + port + " is onLine!Get another service:" + status;
+    }
+
     /**
      * 获取认证信息
      *

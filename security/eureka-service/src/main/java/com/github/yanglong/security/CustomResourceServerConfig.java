@@ -32,8 +32,10 @@ public class CustomResourceServerConfig extends ResourceServerConfigurerAdapter 
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .anyRequest().authenticated()
+        //只有 api 开头的链接使用OAuth2验证，其余的使用spring web security
+        http.requestMatchers().antMatchers("/api/**").and()
+                .authorizeRequests()
+                .antMatchers("/api/**").authenticated()
                 .and()
                 .csrf().disable();
     }
