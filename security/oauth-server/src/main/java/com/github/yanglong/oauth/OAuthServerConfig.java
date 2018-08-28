@@ -55,7 +55,6 @@ public class OAuthServerConfig extends AuthorizationServerConfigurerAdapter {
                 .secret("{noop}android")//密码，android
                 .scopes("service")//权限范围
                 .autoApprove(true)
-                .autoApprove("service")
                 //参数中的client，secret对上，且redirectUri能匹配才会跳转
                 .authorizedGrantTypes("password", "authorization_code", "refresh_token", "client_credentials")
                 .redirectUris("http://127.0.0.1:8001", "http://127.0.0.1:8003", "http://127.0.0.1:8004")//携带code跳转链接

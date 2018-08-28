@@ -42,6 +42,7 @@ public class CustomJwtAccessTokenConverter extends JwtAccessTokenConverter {
      */
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
+        //accessToken.getAdditionalInformation().put();
         return super.enhance(accessToken, authentication);
     }
 }
