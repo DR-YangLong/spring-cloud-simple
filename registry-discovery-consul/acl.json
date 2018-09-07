@@ -1,0 +1,6 @@
+{
+"datacenter": "tencent",
+"acl_datacenter": "tencent",
+"acl_master_token": "7a3cc2f3-61e3-4dea-bcc8-9a7ae1b6017c",
+"acl_default_policy": "deny"
+}
